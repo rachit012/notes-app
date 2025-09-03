@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import windowsBg from '../assets/windows-bg.jpg'; // Make sure you have this image in src/assets
+import windowsBg from '../assets/windows-bg.jpg';
 
-const API_URL = 'http://localhost:5001/api/auth/';
+// Use the environment variable for the base API URL
+const BASE_URL = process.env.REACT_APP_API_URL;
+const API_URL = `${BASE_URL}/api/auth/`;
 
 const SignUp = () => {
     const [step, setStep] = useState<'details' | 'otp'>('details');

@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import windowsBg from '../assets/windows-bg.jpg'; 
 
-const API_URL = 'http://localhost:5001/api/auth/';
+// Use the environment variable for the base API URL
+const BASE_URL = process.env.REACT_APP_API_URL;
+const API_URL = `${BASE_URL}/api/auth/`;
 
 const SignIn = () => {
     const [step, setStep] = useState<'email' | 'otp'>('email');
@@ -43,7 +45,8 @@ const SignIn = () => {
     };
     
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:5001/api/auth/google';
+        // Construct the Google login URL dynamically
+        window.location.href = `${BASE_URL}/api/auth/google`;
     };
 
     return (
