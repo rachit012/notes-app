@@ -13,11 +13,14 @@ configurePassport();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// --- ROBUST CORS CONFIGURATION START ---
 const allowedOrigins = [process.env.FRONTEND_URL];
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+  // Add explicit types to the origin function parameters
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    // The !origin condition allows REST tools and server-to-server requests
+    if (!origin || (allowedOrigins[0] && allowedOrigins.includes(origin))) {
       callback(null, true);
     } else {
       callback(new Error('This origin is not allowed by CORS'));
@@ -26,9 +29,12 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+// This handles preflight requests for all routes
 app.options('*', cors(corsOptions));
 
+// This applies the CORS settings to all other requests
 app.use(cors(corsOptions));
+// --- ROBUST CORS CONFIGURATION END ---
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
